@@ -203,35 +203,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     idleAnimationFrame = 0
   }
 
-  func setSprite(name: String, frameIndex: Int) {
+func setSprite(name: String, frameIndex: Int) {
     guard let frames = spriteSets[name], let sheet = spriteSheet else {
-      setSprite(name: "idle", frameIndex: frameIndex)
-      return
+        setSprite(name: "idle", frameIndex: frameIndex)
+        return
     }
     let frame = frames[frameIndex % frames.count]
-    let sx = frame.0
-    let sy = frame.1
+    
+    let offsetX = frame.0 * 32
+    let offsetY = frame.1 * 32
+ 
+    let cropX = -CGFloat(offsetX)
+    let cropY = -CGFloat(offsetY)
 
-    let sheetSize = sheet.size
-    let framesAcross = Int(sheetSize.width / 32)
-    let framesDown = Int(sheetSize.height / 32)
+    guard let cgImage = sheet.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return }
+    let sheetWidth = CGFloat(cgImage.width)
+    let sheetHeight = CGFloat(cgImage.height)
 
-    let actualXFrame = sx < 0 ? framesAcross + sx : sx
-    let actualYFrame = sy < 0 ? framesDown + sy : sy
+    let srcRect = NSRect(x: cropX, y: cropY, width: 32, height: 32)
 
-    let srcRect = NSRect(
-      x: CGFloat(actualXFrame * 32),
-      y: CGFloat(actualYFrame * 32),
-      width: 32,
-      height: 32)
-
-    if let cgImage = sheet.cgImage(forProposedRect: nil, context: nil, hints: nil),
-      let cropped = cgImage.cropping(to: srcRect)
-    {
-      let frameImage = NSImage(cgImage: cropped, size: NSSize(width: 32, height: 32))
-      imageView.image = frameImage
+    if srcRect.minX < 0 || srcRect.minY < 0 || srcRect.maxX > sheetWidth || srcRect.maxY > sheetHeight {
+        print("Warning: Attempting to crop outside the sprite sheet. Check the sprite offsets or sprite sheet size.")
+        return
     }
-  }
+    
+    if let cropped = cgImage.cropping(to: srcRect) {
+        let frameImage = NSImage(cgImage: cropped, size: NSSize(width: 32, height: 32))
+        imageView.image = frameImage
+    }
+}
 
   func updateWindowPosition() {
     window?.setFrameOrigin(NSPoint(x: nekoPosX - 16, y: nekoPosY - 16))
