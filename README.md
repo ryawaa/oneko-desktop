@@ -2,6 +2,12 @@
 
 oneko but for desktop
 
+## running/compiling
+### macos
+```swift
+swiftc oneko.swift -framework Cocoa -o oneko && ./oneko  
+```
+
 ## planned features
 ### features
 - [x] oneko
