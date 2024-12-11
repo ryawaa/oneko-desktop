@@ -1,7 +1,7 @@
 #ifndef ONEKO_H
 #define ONEKO_H
 
-#include <QWidget>
+#include <QGraphicsView>
 #include <QLabel>
 #include <QTimer>
 #include <QPixmap>
@@ -9,12 +9,15 @@
 #include <QVector>
 #include <QPair>
 
+class QGraphicsScene;
+class QGraphicsPixmapItem;
+
 struct SpriteOffsets
 {
     QMap<QString, QVector<QPair<int, int>>> sets;
 };
 
-class CatWidget : public QWidget
+class CatWidget : public QGraphicsView
 {
     Q_OBJECT
 
@@ -29,7 +32,8 @@ private slots:
     void updateFrame();
 
 private:
-    QLabel *label = nullptr;
+    QGraphicsScene *scene;
+    QGraphicsPixmapItem *spriteItem;
     QPixmap spriteSheet;
     SpriteOffsets spriteSets;
 

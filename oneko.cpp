@@ -7,13 +7,21 @@
 #include <QRandomGenerator>
 #include <QDebug>
 #include <QDir>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
 
-CatWidget::CatWidget(QWidget *parent) : QWidget(parent)
+CatWidget::CatWidget(QWidget *parent) : QGraphicsView(parent)
 {
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
-    setAttribute(Qt::WA_NoSystemBackground);
-    setAttribute(Qt::WA_TransparentForMouseEvents, false);
+    setStyleSheet("background: transparent;");
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setRenderHint(QPainter::Antialiasing);
+    setFrameShape(QFrame::NoFrame);
+
+    scene = new QGraphicsScene(this);
+    setScene(scene);
 
     resize(32, 32);
 
@@ -36,10 +44,6 @@ CatWidget::CatWidget(QWidget *parent) : QWidget(parent)
     spriteSets.sets["W"] = {{-4, -2}, {-4, -3}};
     spriteSets.sets["NW"] = {{-1, 0}, {-1, -1}};
 
-    label = new QLabel(this);
-    label->setScaledContents(true);
-    label->setFixedSize(32, 32);
-
     QString spritePath = QDir::currentPath() + "/oneko.gif";
     spriteSheet = QPixmap(spritePath);
     if (spriteSheet.isNull())
@@ -48,6 +52,9 @@ CatWidget::CatWidget(QWidget *parent) : QWidget(parent)
         QTimer::singleShot(0, qApp, &QApplication::quit);
         return;
     }
+
+    spriteItem = new QGraphicsPixmapItem();
+    scene->addItem(spriteItem);
 
     nekoPosX = 100;
     nekoPosY = 100;
@@ -245,7 +252,9 @@ void CatWidget::setSprite(const QString &name, int frameIndex)
     }
 
     QPixmap frameImage = spriteSheet.copy(cropX, cropY, 32, 32);
-    label->setPixmap(frameImage);
+    spriteItem->setPixmap(frameImage);
+    scene->setSceneRect(frameImage.rect());
+    setFixedSize(32, 32);
 }
 
 void CatWidget::updateWindowPosition()
