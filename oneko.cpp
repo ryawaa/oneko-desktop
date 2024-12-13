@@ -12,7 +12,7 @@
 
 CatWidget::CatWidget(QWidget *parent) : QGraphicsView(parent)
 {
-    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool | Qt::NoDropShadowWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool | Qt::NoDropShadowWindowHint | Qt::WindowDoesNotAcceptFocus);
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_NoSystemBackground);
     setAttribute(Qt::WA_MacAlwaysShowToolWindow);
@@ -262,7 +262,6 @@ void CatWidget::setSprite(const QString &name, int frameIndex)
 void CatWidget::updateWindowPosition()
 {
     move((int)(nekoPosX - 16), (int)(nekoPosY - 16));
-    raise();
 }
 
 int main(int argc, char *argv[])
