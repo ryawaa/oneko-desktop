@@ -1,5 +1,5 @@
-#ifndef ONEKO_H
-#define ONEKO_H
+#ifndef QTNEKO_H
+#define QTNEKO_H
 
 #include <QGraphicsView>
 #include <QLabel>
@@ -57,4 +57,4 @@ private:
     void updateWindowPosition();
 };
 
-#endif // ONEKO_H
+#endif // QTNEKO_H

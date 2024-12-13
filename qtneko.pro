@@ -1,9 +1,9 @@
 QT += core gui widgets
 CONFIG += c++11
-TARGET = oneko
+TARGET = qtneko
 TEMPLATE = app
-SOURCES += oneko.cpp
-HEADERS += oneko.h
+SOURCES += qtneko.cpp
+HEADERS += qtneko.h
 
 # Generate moc file
 QMAKE_EXTRA_COMPILERS += moc

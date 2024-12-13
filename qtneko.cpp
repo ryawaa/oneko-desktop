@@ -1,4 +1,4 @@
-#include "oneko.h"
+#include "qtneko.h"
 #include <QApplication>
 #include <QMouseEvent>
 #include <QScreen>
@@ -46,11 +46,11 @@ CatWidget::CatWidget(QWidget *parent) : QGraphicsView(parent)
     spriteSets.sets["W"] = {{-4, -2}, {-4, -3}};
     spriteSets.sets["NW"] = {{-1, 0}, {-1, -1}};
 
-    QString spritePath = QDir::currentPath() + "/oneko.gif";
+    QString spritePath = QDir::currentPath() + "/qtneko.gif";
     spriteSheet = QPixmap(spritePath);
     if (spriteSheet.isNull())
     {
-        qWarning() << "Could not load oneko.gif from current directory.";
+        qWarning() << "Could not load qtneko.gif from current directory.";
         QTimer::singleShot(0, qApp, &QApplication::quit);
         return;
     }
@@ -70,7 +70,7 @@ CatWidget::CatWidget(QWidget *parent) : QGraphicsView(parent)
 void CatWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu menu;
-    QAction *closeAction = menu.addAction("Close oneko");
+    QAction *closeAction = menu.addAction("Close qtneko");
     connect(closeAction, &QAction::triggered, qApp, &QApplication::quit);
     menu.exec(event->globalPos());
 }

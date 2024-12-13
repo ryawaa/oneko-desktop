@@ -4,8 +4,8 @@ this is oneko but meant to run for desktops
 
 ### building
 ```bash
-git clone https://github.com/ryawaa/oneko-desktop.git
-cd oneko-desktop
+git clone https://github.com/ryawaa/qtneko.git
+cd qtneko
 qmake
 make
 ```
